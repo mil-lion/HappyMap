@@ -11,7 +11,7 @@ import CoreData
 
 class LogTableViewController: UITableViewController {
 
-    var logItems = [NSManagedObject]()
+    var logs = [NSManagedObject]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,8 +43,7 @@ class LogTableViewController: UITableViewController {
         
         //3 Fetch
         do {
-            let results = try managedContext.executeFetchRequest(fetchRequest)
-            logItems = results as! [NSManagedObject]
+            logs = try managedContext.executeFetchRequest(fetchRequest) as! [NSManagedObject]
         } catch let error as NSError {
             print("Could not fetch \(error), \(error.userInfo)")
         }
@@ -60,24 +59,24 @@ class LogTableViewController: UITableViewController {
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return logItems.count
+        return logs.count
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath)
 
         // Configure the cell...
-        let logItem = logItems[indexPath.row]
+        let logRec = logs[indexPath.row]
         
-        let date = logItem.valueForKey("date") as? NSDate
-        let lat = logItem.valueForKey("lat") as? Double
-        let lon = logItem.valueForKey("lon") as? Double
-        let category = logItem.valueForKey("category") as? Int
-        let rate = logItem.valueForKey("rate") as? Int
+        let date = logRec.valueForKey("date") as? NSDate
+        let lat = logRec.valueForKey("lat") as? Double
+        let long = logRec.valueForKey("lon") as? Double
+        let category = logRec.valueForKey("category") as? Int
+        let rate = logRec.valueForKey("rate") as? Int
         
         let smile = (rate > 0 ? "😀" : "😡");
         cell.textLabel!.text = "\(smile) : \(category!)"
-        cell.detailTextLabel!.text = "\(date!) (\(lat!), \(lon!))"
+        cell.detailTextLabel!.text = "\(date!) (\(lat!), \(long!))"
 
         return cell
     }

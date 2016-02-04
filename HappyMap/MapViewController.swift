@@ -39,11 +39,11 @@ class Annotation: NSObject, MKAnnotation {
 
 }
 
+let kRegionRadius: CLLocationDistance = 1000 // in meter
+
 class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
-    
-    let regionRadius: CLLocationDistance = 1000 // in meter
 
     let locationManager = CLLocationManager()
 
@@ -104,7 +104,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         //3 Fetch
         do {
             let results = try managedContext.executeFetchRequest(fetchRequest) as! [NSManagedObject]
-            updateStats(results)
+            updateStatAnnotations(results)
         } catch let error as NSError {
             print("Could not fetch \(error), \(error.userInfo)")
         }
@@ -112,17 +112,17 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         centerMapOnLocation(mapView.userLocation.location)
     }
 
-    func updateStats(stats: [NSManagedObject]) {
+    func updateStatAnnotations(stats: [NSManagedObject]) {
         // remove all Annotations
         let allAnnotations = self.mapView.annotations
         self.mapView.removeAnnotations(allAnnotations)
         // add Annotations
-        for stat in stats {
-            let lat = stat.valueForKey("lat") as! Double
-            let lon = stat.valueForKey("lon") as! Double
-            let category = stat.valueForKey("category") as! Int
-            let rate = stat.valueForKey("rate") as! Int
-            let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: lon)
+        for statRec in stats {
+            let lat = statRec.valueForKey("lat") as! Double
+            let long = statRec.valueForKey("lon") as! Double
+            let category = statRec.valueForKey("category") as! Int
+            let rate = statRec.valueForKey("rate") as! Int
+            let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
             
             let statAnnotation = Annotation(category: category, rate: rate, coordinate: coordinate)
             mapView.addAnnotation(statAnnotation)
@@ -143,7 +143,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     func centerMapOnLocation(location: CLLocation?) {
         if let coordinate = location?.coordinate {
-            let coordinateRegion = MKCoordinateRegionMakeWithDistance(coordinate, regionRadius * 2.0, regionRadius * 2.0)
+            let coordinateRegion = MKCoordinateRegionMakeWithDistance(coordinate, kRegionRadius * 2.0, kRegionRadius * 2.0)
             mapView.setRegion(coordinateRegion, animated: true)
         }
     }
