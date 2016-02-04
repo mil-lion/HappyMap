@@ -23,7 +23,6 @@ let kPrecision = 10000.0
 
 class HappyViewController: UIViewController, CLLocationManagerDelegate {
 
-    let locationManager = CLLocationManager()
     var location: CLLocation? = nil
     var category: Int = 1
 
@@ -34,9 +33,11 @@ class HappyViewController: UIViewController, CLLocationManagerDelegate {
         
         // location manager defined
         if CLLocationManager.locationServicesEnabled() {
+            let locationManager = CLLocationManager()
             locationManager.delegate = self
             //locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
             //locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            //checkLocationAuthorizationStatus
             if #available(iOS 8.0, *) {
                 // Ask for Authorisation from the User.
                 locationManager.requestAlwaysAuthorization()
@@ -149,9 +150,9 @@ class HappyViewController: UIViewController, CLLocationManagerDelegate {
 //        predicates.append(NSPredicate(format: "latitude = %@", latitude))
 //        predicates.append(NSPredicate(format: "longitude = %@", longitude))
 //        predicates.append(NSPredicate(format: "category = %@", category as NSObject))
-//        let compundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
-//        print(compundPredicate)
-//        fetchRequest.predicate = compundPredicate
+//        let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
+//        print(compoundPredicate)
+//        fetchRequest.predicate = compoundPredicate
         let predicate = NSPredicate(format: "latitude = %@ AND longitude = %@ AND category = %@",
             argumentArray: [latitude, longitude, category])
         //print(predicate)
@@ -203,7 +204,7 @@ class HappyViewController: UIViewController, CLLocationManagerDelegate {
         if let location = locations.last {
             self.location = location
         }
-        //locationManager.stopUpdatingLocation()
+        //manager.stopUpdatingLocation()
     }
     
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {

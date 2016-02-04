@@ -45,9 +45,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
 
     @IBOutlet weak var mapView: MKMapView!
 
-    let locationManager = CLLocationManager()
-
-    func checkLocationAuthorizationStatus() {
+    func checkLocationAuthorizationStatus(locationManager: CLLocationManager) {
         if #available(iOS 8.0, *) {
             // Ask for Authorisation from the User.
             if CLLocationManager.authorizationStatus() == .AuthorizedAlways {
@@ -72,9 +70,15 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        locationManager.delegate = self
-        checkLocationAuthorizationStatus()
-        locationManager.startUpdatingLocation()
+        if CLLocationManager.locationServicesEnabled() {
+            let locationManager = CLLocationManager()
+            locationManager.delegate = self
+            checkLocationAuthorizationStatus(locationManager)
+            locationManager.startUpdatingLocation()
+        } else {
+            print("Error: Location service disabled");
+            // TODO: showAlert
+        }
         
         // set initial location in Honolulu
         //let initialLocation = CLLocation(latitude: 21.282778, longitude: -157.829444)
