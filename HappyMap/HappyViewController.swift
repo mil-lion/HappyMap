@@ -33,19 +33,18 @@ class HappyViewController: UIViewController, CLLocationManagerDelegate {
         // Do any additional setup after loading the view, typically from a nib.
         
         // location manager defined
-        if #available(iOS 8.0, *) {
-            // Ask for Authorisation from the User.
-            locationManager.requestAlwaysAuthorization()
-            // For use in foreground
-            //locationManager.requestWhenInUseAuthorization()
-        } else {
-            // Fallback on earlier versions
-        }
-        //requestLocation()
         if CLLocationManager.locationServicesEnabled() {
             locationManager.delegate = self
             //locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
             //locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            if #available(iOS 8.0, *) {
+                // Ask for Authorisation from the User.
+                locationManager.requestAlwaysAuthorization()
+                // For use in foreground
+                //locationManager.requestWhenInUseAuthorization()
+            } else {
+                // Fallback on earlier versions
+            }
 //            if #available(iOS 9.0, *) {
 //                locationManager.requestLocation()
 //            } else {
@@ -119,11 +118,11 @@ class HappyViewController: UIViewController, CLLocationManagerDelegate {
         
         //3 Set Object Attribute
         logItem.setValue(NSDate(), forKey: "date")
-        logItem.setValue(latitude, forKey: "lat")
-        logItem.setValue(longitude, forKey: "lon")
+        logItem.setValue(latitude, forKey: "latitude")
+        logItem.setValue(longitude, forKey: "longitude")
         logItem.setValue(category, forKey: "category")
         logItem.setValue(rate, forKey: "rate")
-        logItem.setValue(0, forKey: "sync")
+        logItem.setValue(0, forKey: "fsync")
         
         //4 Commit
         do {
@@ -147,13 +146,13 @@ class HappyViewController: UIViewController, CLLocationManagerDelegate {
         let fetchRequest = NSFetchRequest(entityName: "Stat")
         //where
 //        var predicates = [NSPredicate]()
-//        predicates.append(NSPredicate(format: "lat = %@", lat))
-//        predicates.append(NSPredicate(format: "lon = %@", lon))
+//        predicates.append(NSPredicate(format: "latitude = %@", latitude))
+//        predicates.append(NSPredicate(format: "longitude = %@", longitude))
 //        predicates.append(NSPredicate(format: "category = %@", category as NSObject))
 //        let compundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicates)
 //        print(compundPredicate)
 //        fetchRequest.predicate = compundPredicate
-        let predicate = NSPredicate(format: "lat = %@ AND lon = %@ AND category = %@",
+        let predicate = NSPredicate(format: "latitude = %@ AND longitude = %@ AND category = %@",
             argumentArray: [latitude, longitude, category])
         //print(predicate)
         fetchRequest.predicate = predicate
@@ -179,8 +178,8 @@ class HappyViewController: UIViewController, CLLocationManagerDelegate {
             let entityStat =  NSEntityDescription.entityForName("Stat", inManagedObjectContext: managedContext)
             statRec = NSManagedObject(entity: entityStat!, insertIntoManagedObjectContext: managedContext)
             
-            statRec!.setValue(latitude, forKey: "lat")
-            statRec!.setValue(longitude, forKey: "lon")
+            statRec!.setValue(latitude, forKey: "latitude")
+            statRec!.setValue(longitude, forKey: "longitude")
             statRec!.setValue(category, forKey: "category")
             statRec!.setValue(rate, forKey: "rate")
         }

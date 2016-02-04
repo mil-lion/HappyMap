@@ -118,11 +118,11 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         self.mapView.removeAnnotations(allAnnotations)
         // add Annotations
         for statRec in stats {
-            let lat = statRec.valueForKey("lat") as! Double
-            let long = statRec.valueForKey("lon") as! Double
+            let latitude = statRec.valueForKey("latitude") as! Double
+            let longitude = statRec.valueForKey("longitude") as! Double
             let category = statRec.valueForKey("category") as! Int
             let rate = statRec.valueForKey("rate") as! Int
-            let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
+            let coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
             
             let statAnnotation = Annotation(category: category, rate: rate, coordinate: coordinate)
             mapView.addAnnotation(statAnnotation)

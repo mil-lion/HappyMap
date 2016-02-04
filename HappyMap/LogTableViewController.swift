@@ -69,14 +69,14 @@ class LogTableViewController: UITableViewController {
         let logRec = logs[indexPath.row]
         
         let date = logRec.valueForKey("date") as? NSDate
-        let lat = logRec.valueForKey("lat") as? Double
-        let long = logRec.valueForKey("lon") as? Double
+        let latitude = logRec.valueForKey("latitude") as? Double
+        let longitude = logRec.valueForKey("longitude") as? Double
         let category = logRec.valueForKey("category") as? Int
         let rate = logRec.valueForKey("rate") as? Int
         
         let smile = (rate > 0 ? "😀" : "😡");
         cell.textLabel!.text = "\(smile) : \(category!)"
-        cell.detailTextLabel!.text = "\(date!) (\(lat!), \(long!))"
+        cell.detailTextLabel!.text = "\(date!) (\(latitude!), \(longitude!))"
 
         return cell
     }
