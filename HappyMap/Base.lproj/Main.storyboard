@@ -1,25 +1,169 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6211" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="MGh-3s-Gvu">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6204"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Happy-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Happy" id="BYZ-38-t0r" customClass="HappyViewController" customModule="HappyMap" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="This place me ..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lsH-dx-Lvb">
+                                <rect key="frame" x="71" y="314" width="232" height="39"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="32"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fMm-51-jCB">
+                                <rect key="frame" x="172" y="190" width="30" height="30"/>
+                                <state key="normal" title="Sad"/>
+                                <connections>
+                                    <action selector="SadPress:" destination="BYZ-38-t0r" eventType="touchUpInside" id="eBX-yD-7p4"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xvw-lN-g9u">
+                                <rect key="frame" x="165" y="453" width="45" height="30"/>
+                                <state key="normal" title="Happy"/>
+                                <connections>
+                                    <action selector="HappyPress:" destination="BYZ-38-t0r" eventType="touchUpInside" id="enQ-MZ-1Q0"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
+                    <tabBarItem key="tabBarItem" title="Happy" id="OnJ-oH-u8d"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="1151.5" y="104.5"/>
+        </scene>
+        <!--Map-->
+        <scene sceneID="NQS-oX-aQu">
+            <objects>
+                <viewController title="Map" id="H1i-1o-Aqp" customClass="MapViewController" customModule="HappyMap" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="V3W-W7-ol8"/>
+                        <viewControllerLayoutGuide type="bottom" id="uWj-Q9-OtY"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="gr3-V6-Cm6">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="nEF-1r-kYM">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
+                                <connections>
+                                    <outlet property="delegate" destination="H1i-1o-Aqp" id="fRt-lw-Yav"/>
+                                </connections>
+                            </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Vg-U1-DGp">
+                                <rect key="frame" x="26" y="568" width="30" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="30" id="4mv-rx-tCH"/>
+                                    <constraint firstAttribute="height" constant="30" id="dfg-wR-K88"/>
+                                </constraints>
+                                <state key="normal" image="CurrentLocation"/>
+                                <connections>
+                                    <action selector="zoomToCurrentLocation:" destination="H1i-1o-Aqp" eventType="touchUpInside" id="ptd-jy-mTH"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="nEF-1r-kYM" firstAttribute="top" secondItem="gr3-V6-Cm6" secondAttribute="top" id="1EX-5G-7gl"/>
+                            <constraint firstItem="uWj-Q9-OtY" firstAttribute="top" secondItem="9Vg-U1-DGp" secondAttribute="bottom" constant="20" id="9Mw-6O-4Qi"/>
+                            <constraint firstItem="9Vg-U1-DGp" firstAttribute="leading" secondItem="gr3-V6-Cm6" secondAttribute="leadingMargin" constant="10" id="BBg-pc-Mwq"/>
+                            <constraint firstAttribute="trailing" secondItem="nEF-1r-kYM" secondAttribute="trailing" id="wfn-sx-oFp"/>
+                            <constraint firstItem="nEF-1r-kYM" firstAttribute="leading" secondItem="gr3-V6-Cm6" secondAttribute="leading" id="yXR-RI-uw7"/>
+                            <constraint firstItem="nEF-1r-kYM" firstAttribute="bottom" secondItem="uWj-Q9-OtY" secondAttribute="top" id="z4x-V5-eCw"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Map" id="t2j-w7-ufs"/>
+                    <connections>
+                        <outlet property="mapView" destination="nEF-1r-kYM" id="coy-9w-Cdo"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HGt-u3-hwT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1151.5" y="844.5"/>
+        </scene>
+        <!--Log-->
+        <scene sceneID="PC0-BX-Lgr">
+            <objects>
+                <tableViewController title="Log" id="Xvw-WR-Dlg" customClass="LogTableViewController" customModule="HappyMap" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="1X9-yt-BDV">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" textLabel="JLo-2B-yqe" detailTextLabel="3RF-sF-god" style="IBUITableViewCellStyleValue1" id="oVp-vV-Hiu">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="oVp-vV-Hiu" id="RBL-M8-jw8">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="JLo-2B-yqe">
+                                            <rect key="frame" x="15" y="12" width="32" height="20"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="3RF-sF-god">
+                                            <rect key="frame" x="318" y="12" width="42" height="20"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="Xvw-WR-Dlg" id="LRp-np-XBh"/>
+                            <outlet property="delegate" destination="Xvw-WR-Dlg" id="VH1-SQ-94P"/>
+                        </connections>
+                    </tableView>
+                    <tabBarItem key="tabBarItem" title="Log" id="92e-HS-ujY"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="arW-mb-bGt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="339.5" y="1425.5"/>
+        </scene>
+        <!--HappyMap-->
+        <scene sceneID="Ub9-0G-ODR">
+            <objects>
+                <tabBarController title="HappyMap" automaticallyAdjustsScrollViewInsets="NO" id="MGh-3s-Gvu" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="IGi-CP-Fgw">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="viewControllers" id="Wr8-Qp-vhH"/>
+                        <segue destination="H1i-1o-Aqp" kind="relationship" relationship="viewControllers" id="KUy-Xr-PjS"/>
+                        <segue destination="Xvw-WR-Dlg" kind="relationship" relationship="viewControllers" id="tf7-Ol-Ze6"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qLY-xl-X6m" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="340" y="387"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="CurrentLocation" width="15" height="15"/>
+    </resources>
 </document>

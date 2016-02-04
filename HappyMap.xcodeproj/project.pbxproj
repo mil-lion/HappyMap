@@ -8,22 +8,28 @@
 
 /* Begin PBXBuildFile section */
 		216272481C61394700E52060 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216272471C61394700E52060 /* AppDelegate.swift */; };
-		2162724A1C61394700E52060 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216272491C61394700E52060 /* ViewController.swift */; };
+		2162724A1C61394700E52060 /* HappyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216272491C61394700E52060 /* HappyViewController.swift */; };
 		2162724D1C61394700E52060 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2162724B1C61394700E52060 /* Main.storyboard */; };
 		216272501C61394700E52060 /* HappyMap.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 2162724E1C61394700E52060 /* HappyMap.xcdatamodeld */; };
 		216272521C61394700E52060 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 216272511C61394700E52060 /* Assets.xcassets */; };
 		216272551C61394700E52060 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 216272531C61394700E52060 /* LaunchScreen.storyboard */; };
+		2162725D1C613A7F00E52060 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2162725C1C613A7F00E52060 /* MapViewController.swift */; };
+		216272611C61536700E52060 /* LogTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216272601C61536700E52060 /* LogTableViewController.swift */; };
+		216272631C621CFA00E52060 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 216272621C621CFA00E52060 /* MapKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		216272441C61394600E52060 /* HappyMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HappyMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		216272471C61394700E52060 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		216272491C61394700E52060 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		216272491C61394700E52060 /* HappyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HappyViewController.swift; sourceTree = "<group>"; };
 		2162724C1C61394700E52060 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2162724F1C61394700E52060 /* HappyMap.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HappyMap.xcdatamodel; sourceTree = "<group>"; };
 		216272511C61394700E52060 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		216272541C61394700E52060 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		216272561C61394700E52060 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2162725C1C613A7F00E52060 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		216272601C61536700E52060 /* LogTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogTableViewController.swift; sourceTree = "<group>"; };
+		216272621C621CFA00E52060 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +37,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				216272631C621CFA00E52060 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -42,6 +49,7 @@
 			children = (
 				216272461C61394600E52060 /* HappyMap */,
 				216272451C61394600E52060 /* Products */,
+				216272621C621CFA00E52060 /* MapKit.framework */,
 			);
 			sourceTree = "<group>";
 		};
@@ -57,7 +65,9 @@
 			isa = PBXGroup;
 			children = (
 				216272471C61394700E52060 /* AppDelegate.swift */,
-				216272491C61394700E52060 /* ViewController.swift */,
+				216272491C61394700E52060 /* HappyViewController.swift */,
+				2162725C1C613A7F00E52060 /* MapViewController.swift */,
+				216272601C61536700E52060 /* LogTableViewController.swift */,
 				2162724B1C61394700E52060 /* Main.storyboard */,
 				216272511C61394700E52060 /* Assets.xcassets */,
 				216272531C61394700E52060 /* LaunchScreen.storyboard */,
@@ -99,6 +109,12 @@
 				TargetAttributes = {
 					216272431C61394600E52060 = {
 						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = WCVA56APQ2;
+						SystemCapabilities = {
+							com.apple.Maps.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -138,9 +154,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2162724A1C61394700E52060 /* ViewController.swift in Sources */,
+				216272611C61536700E52060 /* LogTableViewController.swift in Sources */,
+				2162724A1C61394700E52060 /* HappyViewController.swift in Sources */,
 				216272501C61394700E52060 /* HappyMap.xcdatamodeld in Sources */,
 				216272481C61394700E52060 /* AppDelegate.swift in Sources */,
+				2162725D1C613A7F00E52060 /* MapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -202,7 +220,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -240,7 +258,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -251,6 +269,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = HappyMap/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ru.lionsoft.HappyMap;
@@ -262,6 +282,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = HappyMap/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ru.lionsoft.HappyMap;
