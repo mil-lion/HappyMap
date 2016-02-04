@@ -75,8 +75,9 @@ class LogTableViewController: UITableViewController {
         let category = logItem.valueForKey("category") as? Int
         let rate = logItem.valueForKey("rate") as? Int
         
-        cell.textLabel!.text = "(\(lat!), \(lon!)) \(category!): \(rate!)"
-        cell.detailTextLabel!.text = "\(date!)"
+        let smile = (rate > 0 ? "😀" : "😡");
+        cell.textLabel!.text = "\(smile) : \(category!)"
+        cell.detailTextLabel!.text = "\(date!) (\(lat!), \(lon!))"
 
         return cell
     }
