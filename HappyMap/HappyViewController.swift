@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  HappyViewController.swift
 //  HappyMap
 //
 //  Created by Игорь Моренко on 02.02.16.
@@ -23,6 +23,8 @@ let kPrecision = 10000.0
 
 class HappyViewController: UIViewController, CLLocationManagerDelegate {
 
+    let locationManager = CLLocationManager()
+
     var location: CLLocation? = nil
     var category: Int = 1
 
@@ -33,7 +35,6 @@ class HappyViewController: UIViewController, CLLocationManagerDelegate {
         
         // location manager defined
         if CLLocationManager.locationServicesEnabled() {
-            let locationManager = CLLocationManager()
             locationManager.delegate = self
             //locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
             //locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
@@ -101,7 +102,7 @@ class HappyViewController: UIViewController, CLLocationManagerDelegate {
             updateStat(statLat, longitude: statLong, category: self.category, rate: rate)
             updateStat(statLat, longitude: statLong, category: 0, rate: rate) // Category: Total
         } else {
-            print("Error finding current location")
+            print("Error finding current location!")
             // TODO: showAlert
         }
         

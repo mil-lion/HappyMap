@@ -16,6 +16,7 @@
 		2162725D1C613A7F00E52060 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2162725C1C613A7F00E52060 /* MapViewController.swift */; };
 		216272611C61536700E52060 /* LogTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216272601C61536700E52060 /* LogTableViewController.swift */; };
 		216272631C621CFA00E52060 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 216272621C621CFA00E52060 /* MapKit.framework */; };
+		216272851C646FDF00E52060 /* StatAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216272841C646FDF00E52060 /* StatAnnotation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		2162725C1C613A7F00E52060 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		216272601C61536700E52060 /* LogTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogTableViewController.swift; sourceTree = "<group>"; };
 		216272621C621CFA00E52060 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		216272841C646FDF00E52060 /* StatAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatAnnotation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +70,7 @@
 				216272491C61394700E52060 /* HappyViewController.swift */,
 				2162725C1C613A7F00E52060 /* MapViewController.swift */,
 				216272601C61536700E52060 /* LogTableViewController.swift */,
+				216272841C646FDF00E52060 /* StatAnnotation.swift */,
 				2162724B1C61394700E52060 /* Main.storyboard */,
 				216272511C61394700E52060 /* Assets.xcassets */,
 				216272531C61394700E52060 /* LaunchScreen.storyboard */,
@@ -154,6 +157,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				216272851C646FDF00E52060 /* StatAnnotation.swift in Sources */,
 				216272611C61536700E52060 /* LogTableViewController.swift in Sources */,
 				2162724A1C61394700E52060 /* HappyViewController.swift in Sources */,
 				216272501C61394700E52060 /* HappyMap.xcdatamodeld in Sources */,

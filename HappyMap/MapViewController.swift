@@ -11,41 +11,15 @@ import MapKit
 import CoreLocation
 import CoreData
 
-class Annotation: NSObject, MKAnnotation {
-    let rate: Int
-    let category: Int
-    let coordinate: CLLocationCoordinate2D
-    
-    init(category: Int, rate: Int, coordinate: CLLocationCoordinate2D) {
-        self.category = category
-        self.rate = rate
-        self.coordinate = coordinate
-        
-        super.init()
-    }
-    
-    var title: String? {
-        if rate < 0 {
-            return "😒"
-        } else if rate > 0 {
-            return "😀"
-        }
-        return "😐"
-    }
-
-    var subtitle: String? {
-        return "\(rate)"
-    }
-
-}
-
 let kRegionRadius: CLLocationDistance = 1000 // in meter
 
 class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
 
-    func checkLocationAuthorizationStatus(locationManager: CLLocationManager) {
+    let locationManager = CLLocationManager()
+
+    func checkLocationAuthorizationStatus() {
         if #available(iOS 8.0, *) {
             // Ask for Authorisation from the User.
             if CLLocationManager.authorizationStatus() == .AuthorizedAlways {
@@ -71,9 +45,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
 
         // Do any additional setup after loading the view.
         if CLLocationManager.locationServicesEnabled() {
-            let locationManager = CLLocationManager()
             locationManager.delegate = self
-            checkLocationAuthorizationStatus(locationManager)
+            checkLocationAuthorizationStatus()
             locationManager.startUpdatingLocation()
         } else {
             print("Error: Location service disabled");
@@ -122,13 +95,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         self.mapView.removeAnnotations(allAnnotations)
         // add Annotations
         for statRec in stats {
-            let latitude = statRec.valueForKey("latitude") as! Double
-            let longitude = statRec.valueForKey("longitude") as! Double
-            let category = statRec.valueForKey("category") as! Int
-            let rate = statRec.valueForKey("rate") as! Int
-            let coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-            
-            let statAnnotation = Annotation(category: category, rate: rate, coordinate: coordinate)
+            let statAnnotation = StatAnnotation(statRec: statRec)
             mapView.addAnnotation(statAnnotation)
         }
     }
@@ -160,7 +127,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         let identifier = "myPin"
-        if let annotation  = annotation as? Annotation {
+        if let annotation  = annotation as? StatAnnotation {
             var annotationView = mapView.dequeueReusableAnnotationViewWithIdentifier(identifier) as? MKPinAnnotationView
             if annotationView == nil {
                 annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
@@ -195,7 +162,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     // MARK: - CLLocationManagerDelegate
     
     func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
-        print("didChangeAuthorizationStatus: \(status)")
+        //print("didChangeAuthorizationStatus: \(status)")
         if #available(iOS 8.0, *) {
             mapView.showsUserLocation = (status == .AuthorizedAlways || status == .AuthorizedWhenInUse)
         } else {
@@ -211,6 +178,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     }
 
     func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
-        print("Error location: \(error.localizedDescription)")
+        print("Error finding location: \(error.localizedDescription)")
     }
 }
