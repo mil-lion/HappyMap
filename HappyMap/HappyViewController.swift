@@ -108,16 +108,18 @@ class HappyViewController: UIViewController, CLLocationManagerDelegate {
         
     }
     
-    func saveLog(latitude: Double, longitude: Double, category: Int, rate: Int) {
-        
-        //1 Get Context of Core Data
+    //1 Get Context of Core Data
+    var managedObjectContext: NSManagedObjectContext {
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        let managedContext = appDelegate.managedObjectContext
+        return appDelegate.managedObjectContext
+    }
+
+    func saveLog(latitude: Double, longitude: Double, category: Int, rate: Int) {
         
         //2 New Entry Object
         //let entityLog =  NSEntityDescription.entityForName("Log", inManagedObjectContext: managedContext)
         //let logItem = NSManagedObject(entity: entityLog!, insertIntoManagedObjectContext: managedContext)
-        let newLog = NSEntityDescription.insertNewObjectForEntityForName("Log", inManagedObjectContext: managedContext) as! Log
+        let newLog = NSEntityDescription.insertNewObjectForEntityForName("Log", inManagedObjectContext: managedObjectContext) as! Log
         
         //3 Set Object Attribute
         newLog.date = NSDate()
@@ -129,7 +131,7 @@ class HappyViewController: UIViewController, CLLocationManagerDelegate {
         
         //4 Commit
         do {
-            try managedContext.save()
+            try managedObjectContext.save()
             //5 Refresh Data
             //logItems.append(logItem)
         } catch let error as NSError  {
@@ -138,10 +140,6 @@ class HappyViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func updateStat(latitude: Double, longitude: Double, category: Int, rate: Int) {
-        
-        //1 Get Context of Core Data
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        let managedContext = appDelegate.managedObjectContext
         
         var statRec: Stat? = nil
         
@@ -162,7 +160,7 @@ class HappyViewController: UIViewController, CLLocationManagerDelegate {
         
         //3 Fetch
         do {
-            let results = try managedContext.executeFetchRequest(fetchRequest) as! [Stat]
+            let results = try managedObjectContext.executeFetchRequest(fetchRequest) as! [Stat]
             statRec = results.first
         } catch let error as NSError {
             print("Error: Could not fetch from Stat: \(error), \(error.userInfo)")
@@ -177,7 +175,7 @@ class HappyViewController: UIViewController, CLLocationManagerDelegate {
             //4 New Item
             //let entityStat =  NSEntityDescription.entityForName("Stat", inManagedObjectContext: managedContext)
             //statRec = NSManagedObject(entity: entityStat!, insertIntoManagedObjectContext: managedContext)
-            statRec = NSEntityDescription.insertNewObjectForEntityForName("Stat", inManagedObjectContext: managedContext) as? Stat
+            statRec = NSEntityDescription.insertNewObjectForEntityForName("Stat", inManagedObjectContext: managedObjectContext) as? Stat
             
             statRec!.latitude = latitude
             statRec!.longitude = longitude
@@ -187,7 +185,7 @@ class HappyViewController: UIViewController, CLLocationManagerDelegate {
         
         //5 Commit
         do {
-            try managedContext.save()
+            try managedObjectContext.save()
             //5 Refresh Data
             print("Save stat: \(statRec!.rate!) for category: \(category)")
             //statItems.append(logItem)
