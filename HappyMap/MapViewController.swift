@@ -95,8 +95,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         self.mapView.removeAnnotations(allAnnotations)
         // add Annotations
         for statRec in stats {
-            let statAnnotation = StatAnnotation(statRec: statRec)
-            mapView.addAnnotation(statAnnotation)
+            mapView.addAnnotation(statRec)
         }
     }
     
@@ -127,31 +126,32 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         let identifier = "myPin"
-        if let annotation  = annotation as? StatAnnotation {
+        if let annotation  = annotation as? Stat {
             var annotationView = mapView.dequeueReusableAnnotationViewWithIdentifier(identifier) as? MKPinAnnotationView
             if annotationView == nil {
                 annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-                annotationView?.canShowCallout = true
+                annotationView!.canShowCallout = true
             } else {
-                annotationView?.annotation = annotation
+                annotationView!.annotation = annotation
             }
             // change pin color
+            let rate = annotation.rate!.integerValue
             if #available(iOS 9.0, *) {
-                if annotation.rate < 0 {
-                    annotationView?.pinTintColor = MKPinAnnotationView.redPinColor()
-                } else if annotation.rate > 0 {
-                    annotationView?.pinTintColor = MKPinAnnotationView.greenPinColor()
+                if rate < 0 {
+                    annotationView!.pinTintColor = MKPinAnnotationView.redPinColor()
+                } else if rate > 0 {
+                    annotationView!.pinTintColor = MKPinAnnotationView.greenPinColor()
                 } else {
-                    annotationView?.pinTintColor = MKPinAnnotationView.purplePinColor()
+                    annotationView!.pinTintColor = MKPinAnnotationView.purplePinColor()
                 }
             } else {
                 // Fallback on earlier versions
-                if annotation.rate < 0 {
-                    annotationView?.pinColor = .Red
-                } else if annotation.rate > 0 {
-                    annotationView?.pinColor = .Green
+                if rate < 0 {
+                    annotationView!.pinColor = .Red
+                } else if rate > 0 {
+                    annotationView!.pinColor = .Green
                 } else {
-                    annotationView?.pinColor = .Purple
+                    annotationView!.pinColor = .Purple
                 }
             }
             return annotationView
