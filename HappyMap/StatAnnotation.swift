@@ -22,11 +22,11 @@ class StatAnnotation: NSObject, MKAnnotation {
         super.init()
     }
     
-    init(statRec: NSManagedObject) {
-        let latitude = statRec.valueForKey("latitude") as! Double
-        let longitude = statRec.valueForKey("longitude") as! Double
-        self.category = statRec.valueForKey("category") as! Int
-        self.rate = statRec.valueForKey("rate") as! Int
+    init(statRec: Stat) {
+        let latitude = statRec.latitude!.doubleValue
+        let longitude = statRec.longitude!.doubleValue
+        self.category = statRec.category!.integerValue
+        self.rate = statRec.rate!.integerValue
         self.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         
         super.init()

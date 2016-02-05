@@ -11,7 +11,7 @@ import CoreData
 
 class LogTableViewController: UITableViewController {
 
-    var logs = [NSManagedObject]()
+    var logs = [Log]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,7 +43,7 @@ class LogTableViewController: UITableViewController {
         
         //3 Fetch
         do {
-            logs = try managedContext.executeFetchRequest(fetchRequest) as! [NSManagedObject]
+            logs = try managedContext.executeFetchRequest(fetchRequest) as! [Log]
         } catch let error as NSError {
             print("Could not fetch \(error), \(error.userInfo)")
         }
@@ -68,15 +68,9 @@ class LogTableViewController: UITableViewController {
         // Configure the cell...
         let logRec = logs[indexPath.row]
         
-        let date = logRec.valueForKey("date") as? NSDate
-        let latitude = logRec.valueForKey("latitude") as? Double
-        let longitude = logRec.valueForKey("longitude") as? Double
-        let category = logRec.valueForKey("category") as? Int
-        let rate = logRec.valueForKey("rate") as? Int
-        
-        let smile = (rate > 0 ? "😀" : "😡");
-        cell.textLabel!.text = "\(smile) : \(category!)"
-        cell.detailTextLabel!.text = "\(date!) (\(latitude!), \(longitude!))"
+        let smile = (logRec.rate!.integerValue > 0 ? "😀" : "😡");
+        cell.textLabel!.text = "\(smile) : \(logRec.category!)"
+        cell.detailTextLabel!.text = "\(logRec.date!) (\(logRec.latitude!), \(logRec.longitude!))"
 
         return cell
     }

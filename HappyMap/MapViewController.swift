@@ -80,7 +80,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         
         //3 Fetch
         do {
-            let results = try managedContext.executeFetchRequest(fetchRequest) as! [NSManagedObject]
+            let results = try managedContext.executeFetchRequest(fetchRequest) as! [Stat]
             updateStatAnnotations(results)
         } catch let error as NSError {
             print("Could not fetch \(error), \(error.userInfo)")
@@ -89,7 +89,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         centerMapOnLocation(mapView.userLocation.location)
     }
 
-    func updateStatAnnotations(stats: [NSManagedObject]) {
+    func updateStatAnnotations(stats: [Stat]) {
         // remove all Annotations
         let allAnnotations = self.mapView.annotations
         self.mapView.removeAnnotations(allAnnotations)

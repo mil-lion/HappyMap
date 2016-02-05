@@ -115,16 +115,17 @@ class HappyViewController: UIViewController, CLLocationManagerDelegate {
         let managedContext = appDelegate.managedObjectContext
         
         //2 New Entry Object
-        let entityLog =  NSEntityDescription.entityForName("Log", inManagedObjectContext: managedContext)
-        let logItem = NSManagedObject(entity: entityLog!, insertIntoManagedObjectContext: managedContext)
+        //let entityLog =  NSEntityDescription.entityForName("Log", inManagedObjectContext: managedContext)
+        //let logItem = NSManagedObject(entity: entityLog!, insertIntoManagedObjectContext: managedContext)
+        let newLog = NSEntityDescription.insertNewObjectForEntityForName("Log", inManagedObjectContext: managedContext) as! Log
         
         //3 Set Object Attribute
-        logItem.setValue(NSDate(), forKey: "date")
-        logItem.setValue(latitude, forKey: "latitude")
-        logItem.setValue(longitude, forKey: "longitude")
-        logItem.setValue(category, forKey: "category")
-        logItem.setValue(rate, forKey: "rate")
-        logItem.setValue(0, forKey: "fsync")
+        newLog.date = NSDate()
+        newLog.latitude = latitude
+        newLog.longitude = longitude
+        newLog.category = category
+        newLog.rate = rate
+        newLog.fsync = 0
         
         //4 Commit
         do {
@@ -132,7 +133,7 @@ class HappyViewController: UIViewController, CLLocationManagerDelegate {
             //5 Refresh Data
             //logItems.append(logItem)
         } catch let error as NSError  {
-            print("Error: Could not save Log\(error), \(error.userInfo)")
+            print("Error: Could not save new Log: \(error), \(error.userInfo)")
         }
     }
     
@@ -142,7 +143,7 @@ class HappyViewController: UIViewController, CLLocationManagerDelegate {
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let managedContext = appDelegate.managedObjectContext
         
-        var statRec: NSManagedObject? = nil
+        var statRec: Stat? = nil
         
         //2 Find by Location and Category
         let fetchRequest = NSFetchRequest(entityName: "Stat")
@@ -161,39 +162,37 @@ class HappyViewController: UIViewController, CLLocationManagerDelegate {
         
         //3 Fetch
         do {
-            let results = try managedContext.executeFetchRequest(fetchRequest) as! [NSManagedObject]
-            if results.count > 0 {
-                statRec = results.first
-            }
+            let results = try managedContext.executeFetchRequest(fetchRequest) as! [Stat]
+            statRec = results.first
         } catch let error as NSError {
-            print("Error: Could not fetch from Stat \(error), \(error.userInfo)")
+            print("Error: Could not fetch from Stat: \(error), \(error.userInfo)")
         }
         
         //4 Update or Insert
         if statRec != nil {
             //4 Update Item
-            let statRate = statRec!.valueForKey("rate") as! Int
-            statRec!.setValue((statRate + rate), forKey: "rate")
+            statRec!.rate = statRec!.rate!.integerValue + rate
             //print("Update Satat: \(statRate + rate)")
         } else {
             //4 New Item
-            let entityStat =  NSEntityDescription.entityForName("Stat", inManagedObjectContext: managedContext)
-            statRec = NSManagedObject(entity: entityStat!, insertIntoManagedObjectContext: managedContext)
+            //let entityStat =  NSEntityDescription.entityForName("Stat", inManagedObjectContext: managedContext)
+            //statRec = NSManagedObject(entity: entityStat!, insertIntoManagedObjectContext: managedContext)
+            statRec = NSEntityDescription.insertNewObjectForEntityForName("Stat", inManagedObjectContext: managedContext) as? Stat
             
-            statRec!.setValue(latitude, forKey: "latitude")
-            statRec!.setValue(longitude, forKey: "longitude")
-            statRec!.setValue(category, forKey: "category")
-            statRec!.setValue(rate, forKey: "rate")
+            statRec!.latitude = latitude
+            statRec!.longitude = longitude
+            statRec!.category = category
+            statRec!.rate = rate
         }
         
         //5 Commit
         do {
             try managedContext.save()
             //5 Refresh Data
-            print("Save stat: \(statRec!.valueForKey("rate")!) for category: \(category)")
+            print("Save stat: \(statRec!.rate!) for category: \(category)")
             //statItems.append(logItem)
         } catch let error as NSError  {
-            print("Error: Could not save Stat \(error), \(error.userInfo)")
+            print("Error: Could not save Stat: \(error), \(error.userInfo)")
         }
     }
 

@@ -17,6 +17,8 @@
 		216272611C61536700E52060 /* LogTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216272601C61536700E52060 /* LogTableViewController.swift */; };
 		216272631C621CFA00E52060 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 216272621C621CFA00E52060 /* MapKit.framework */; };
 		216272851C646FDF00E52060 /* StatAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216272841C646FDF00E52060 /* StatAnnotation.swift */; };
+		216272981C64768200E52060 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216272941C64768200E52060 /* Log.swift */; };
+		2162729A1C64768200E52060 /* Stat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216272961C64768200E52060 /* Stat.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +34,8 @@
 		216272601C61536700E52060 /* LogTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogTableViewController.swift; sourceTree = "<group>"; };
 		216272621C621CFA00E52060 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		216272841C646FDF00E52060 /* StatAnnotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatAnnotation.swift; sourceTree = "<group>"; };
+		216272941C64768200E52060 /* Log.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
+		216272961C64768200E52060 /* Stat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stat.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +80,8 @@
 				216272531C61394700E52060 /* LaunchScreen.storyboard */,
 				216272561C61394700E52060 /* Info.plist */,
 				2162724E1C61394700E52060 /* HappyMap.xcdatamodeld */,
+				216272941C64768200E52060 /* Log.swift */,
+				216272961C64768200E52060 /* Stat.swift */,
 			);
 			path = HappyMap;
 			sourceTree = "<group>";
@@ -160,8 +166,10 @@
 				216272851C646FDF00E52060 /* StatAnnotation.swift in Sources */,
 				216272611C61536700E52060 /* LogTableViewController.swift in Sources */,
 				2162724A1C61394700E52060 /* HappyViewController.swift in Sources */,
+				2162729A1C64768200E52060 /* Stat.swift in Sources */,
 				216272501C61394700E52060 /* HappyMap.xcdatamodeld in Sources */,
 				216272481C61394700E52060 /* AppDelegate.swift in Sources */,
+				216272981C64768200E52060 /* Log.swift in Sources */,
 				2162725D1C613A7F00E52060 /* MapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -314,6 +322,7 @@
 				2162725B1C61394700E52060 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
