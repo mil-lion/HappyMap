@@ -9,18 +9,47 @@
 import UIKit
 import CoreData
 
-class LogTableViewController: UITableViewController {
+class LogTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
 
-    var logs = [Log]()
+    var frc: NSFetchedResultsController!;
+    
+    var managedObjectContext: NSManagedObjectContext {
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        return appDelegate.managedObjectContext
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        //barButtonAddPerson = UIBarButtonItem(barButtonSystemItem: .Add,
+        //    target: self,
+        //    action: "addNewPerson:")
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        // self.navigationItem.leftBarButtonItem = editButtonItem()
+        // self.navigationItem.rightBarButtonItem = barButtonAddPerson
+        
+        // Fetched Results Controller init
+        // fetch request init for entity Log
+        let fetchRequest = NSFetchRequest(entityName: "Log")
+        // order by
+        let sortDescriptor = NSSortDescriptor(key: "date", ascending: false)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        
+        frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
+        frc.delegate = self
+
+        //3 Fetch
+        do {
+            try frc.performFetch()
+            //print("Successfully fetched")
+        } catch let error as NSError {
+            print("Could not fetch \(error), \(error.userInfo)")
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -28,45 +57,55 @@ class LogTableViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
+    /*
+    func addNewPerson(sender: AnyObject){
+        /* This is a custom segue identifier that we have defined in our
+        storyboard that simply does a "Show" segue from our view controller
+        to the "Add New Person" view controller */
+        performSegueWithIdentifier("addPerson", sender: nil)
+    }
+    */
+
+    // MARK: - Fetched Results Controller Delegate
+    
+    func controllerWillChangeContent(controller: NSFetchedResultsController) {
+        tableView.beginUpdates()
+    }
+    
+    func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
         
-        //1 Get Context of Core Data
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        let managedContext = appDelegate.managedObjectContext
-        
-        //2 Find
-        let fetchRequest = NSFetchRequest(entityName: "Log")
-        // order by
-        let sortDescriptor = NSSortDescriptor(key: "date", ascending: false)
-        fetchRequest.sortDescriptors = [sortDescriptor]
-        
-        //3 Fetch
-        do {
-            logs = try managedContext.executeFetchRequest(fetchRequest) as! [Log]
-        } catch let error as NSError {
-            print("Could not fetch \(error), \(error.userInfo)")
+        if type == .Delete {
+            
+            tableView.deleteRowsAtIndexPaths([indexPath!], withRowAnimation: .Automatic)
         }
-        self.tableView.reloadData()
+        else if type == .Insert {
+            
+            tableView.insertRowsAtIndexPaths([newIndexPath!], withRowAnimation: .Automatic)
+        }
+    }
+    
+    func controllerDidChangeContent(controller: NSFetchedResultsController) {
+        tableView.endUpdates()
     }
     
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 1
+
+        return frc.sections!.count
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return logs.count
+        
+        let sectionInfo = frc.sections![section] as NSFetchedResultsSectionInfo
+        return sectionInfo.numberOfObjects
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath)
 
         // Configure the cell...
-        let logRec = logs[indexPath.row]
+        let logRec = frc.objectAtIndexPath(indexPath) as! Log
         
         let smile = (logRec.rate!.integerValue > 0 ? "😀" : "😡");
         cell.textLabel!.text = "\(smile) : \(logRec.category!)"
@@ -85,6 +124,20 @@ class LogTableViewController: UITableViewController {
 
     /*
     // Override to support editing the table view.
+    override func setEditing(editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+    
+        if editing {
+            navigationItem.setRightBarButtonItem(nil, animated: true)
+        } else {
+            navigationItem.setRightBarButtonItem(barButtonAddPerson, animated: true)
+        }
+    
+    }
+    */
+    
+    /*
+    // Override to support editing the table view.
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
             // Delete the row from the data source
@@ -92,9 +145,30 @@ class LogTableViewController: UITableViewController {
         } else if editingStyle == .Insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
+
+        let personToDelete = self.frc.objectAtIndexPath(indexPath) as! Person
+    
+        managedObjectContext!.deleteObject(personToDelete)
+    
+        if personToDelete.deleted{
+    
+            do {
+                try managedObjectContext!.save()
+                print("Successfully deleted the object")
+            } catch let error as NSError {
+                print("Failed to save the context with error = \(error)")
+            }
+        }
     }
     */
 
+    /*
+    // Override to support editing the table view.
+    override func tableView(tableView: UITableView, editingStyleForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCellEditingStyle {
+            return .Delete
+    }
+    */
+    
     /*
     // Override to support rearranging the table view.
     override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
