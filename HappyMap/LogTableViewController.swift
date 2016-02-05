@@ -13,6 +13,7 @@ class LogTableViewController: UITableViewController, NSFetchedResultsControllerD
 
     var frc: NSFetchedResultsController!;
     
+    //1 Get Context of Core Data
     var managedObjectContext: NSManagedObjectContext {
         let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         return appDelegate.managedObjectContext

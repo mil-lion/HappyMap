@@ -13,7 +13,7 @@ import CoreData
 
 let kRegionRadius: CLLocationDistance = 1000 // in meter
 
-class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
+class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate, NSFetchedResultsControllerDelegate {
 
     @IBOutlet weak var mapView: MKMapView!
 
@@ -40,10 +40,41 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         }
     }
 
+    var frc: NSFetchedResultsController!;
+    
+    //1 Get Context of Core Data
+    var managedObjectContext: NSManagedObjectContext {
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        return appDelegate.managedObjectContext
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+
+        // Fetched Results Controller init
+        //2 Find by Category = Total (0)
+        let fetchRequest = NSFetchRequest(entityName: "Stat")
+        // where
+        fetchRequest.predicate = NSPredicate(format: "category = 0")
+        // order by
+        let sortDescriptor = NSSortDescriptor(key: "rate", ascending: true)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        
+        frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
+        frc.delegate = self
+
+        //3 Fetch
+        do {
+            try frc.performFetch()
+            //print("Successfully fetched")
+            configureAnnotations()
+        } catch let error as NSError {
+            print("Could not fetch \(error), \(error.userInfo)")
+        }
+
+        // location manager init
         if CLLocationManager.locationServicesEnabled() {
             locationManager.delegate = self
             checkLocationAuthorizationStatus()
@@ -66,39 +97,52 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        //1 Get Context of Core Data
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        let managedContext = appDelegate.managedObjectContext
-        
-        //2 Find by Category = Total (0)
-        let fetchRequest = NSFetchRequest(entityName: "Stat")
-        // where
-        fetchRequest.predicate = NSPredicate(format: "category = 0")
-        // order by
-        //let sortDescriptor = NSSortDescriptor(key: "date", ascending: false)
-        //fetchRequest.sortDescriptors = [sortDescriptor]
-        
-        //3 Fetch
-        do {
-            let results = try managedContext.executeFetchRequest(fetchRequest) as! [Stat]
-            updateStatAnnotations(results)
-        } catch let error as NSError {
-            print("Could not fetch \(error), \(error.userInfo)")
-        }
-        
         centerMapOnLocation(mapView.userLocation.location)
     }
 
-    func updateStatAnnotations(stats: [Stat]) {
+    func configureAnnotations() {
         // remove all Annotations
         let allAnnotations = self.mapView.annotations
         self.mapView.removeAnnotations(allAnnotations)
         // add Annotations
-        for statRec in stats {
-            mapView.addAnnotation(statRec)
+        let annotations = self.frc.fetchedObjects as! [Stat]
+        self.mapView.addAnnotations(annotations)
+    }
+    
+    // MARK: - Fetched Results Controller Delegate
+    
+    func controllerWillChangeContent(controller: NSFetchedResultsController) {
+        
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true;
+    }
+    
+    func controller(controller: NSFetchedResultsController, didChangeObject anObject: AnyObject, atIndexPath indexPath: NSIndexPath?, forChangeType type: NSFetchedResultsChangeType, newIndexPath: NSIndexPath?) {
+
+        switch type {
+        case .Insert:
+            self.mapView.addAnnotation(anObject as! Stat)
+            break;
+        
+        case .Update:
+            self.mapView.removeAnnotation(anObject as! Stat)
+            self.mapView.addAnnotation(anObject as! Stat)
+            break;
+        
+        case .Delete:
+            self.mapView.removeAnnotation(anObject as! Stat)
+            break;
+        
+        case .Move:
+            // do nothing
+            break;
         }
     }
     
+    func controllerDidChangeContent(controller: NSFetchedResultsController) {
+
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false;
+    }
+
     /*
     // MARK: - Navigation
 
