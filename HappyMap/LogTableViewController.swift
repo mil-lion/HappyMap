@@ -110,7 +110,7 @@ class LogTableViewController: UITableViewController, NSFetchedResultsControllerD
         
         let smile = (logRec.rate!.integerValue > 0 ? "😀" : "😡");
         cell.textLabel!.text = "\(smile) : \(logRec.category!)"
-        cell.detailTextLabel!.text = "\(logRec.date!) (\(logRec.latitude!), \(logRec.longitude!))"
+        cell.detailTextLabel!.text = "\(logRec.date!.string()) (\(logRec.latitude!), \(logRec.longitude!))"
 
         return cell
     }

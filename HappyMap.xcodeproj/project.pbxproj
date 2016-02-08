@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		211EFEAA1C6898E900E0E5D2 /* apikeys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 211EFEA81C6898E900E0E5D2 /* apikeys.plist */; };
+		211EFEAC1C68A51E00E0E5D2 /* CommonCrypt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 211EFEAB1C68A51E00E0E5D2 /* CommonCrypt.swift */; };
+		211EFEAF1C68F3FA00E0E5D2 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 211EFEAE1C68F3FA00E0E5D2 /* DataManager.swift */; };
 		216272481C61394700E52060 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216272471C61394700E52060 /* AppDelegate.swift */; };
 		2162724A1C61394700E52060 /* HappyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216272491C61394700E52060 /* HappyViewController.swift */; };
 		2162724D1C61394700E52060 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2162724B1C61394700E52060 /* Main.storyboard */; };
@@ -21,6 +24,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		211EFEA91C6898E900E0E5D2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Base; path = Base.lproj/apikeys.plist; sourceTree = "<group>"; };
+		211EFEAB1C68A51E00E0E5D2 /* CommonCrypt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonCrypt.swift; sourceTree = "<group>"; };
+		211EFEAD1C68BC2400E0E5D2 /* Objective-CBridgingHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Objective-CBridgingHeader.h"; sourceTree = "<group>"; };
+		211EFEAE1C68F3FA00E0E5D2 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		216272441C61394600E52060 /* HappyMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HappyMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		216272471C61394700E52060 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		216272491C61394700E52060 /* HappyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HappyViewController.swift; sourceTree = "<group>"; };
@@ -79,6 +86,10 @@
 				2162724E1C61394700E52060 /* HappyMap.xcdatamodeld */,
 				216272941C64768200E52060 /* Log.swift */,
 				216272961C64768200E52060 /* Stat.swift */,
+				211EFEAE1C68F3FA00E0E5D2 /* DataManager.swift */,
+				211EFEA81C6898E900E0E5D2 /* apikeys.plist */,
+				211EFEAD1C68BC2400E0E5D2 /* Objective-CBridgingHeader.h */,
+				211EFEAB1C68A51E00E0E5D2 /* CommonCrypt.swift */,
 			);
 			path = HappyMap;
 			sourceTree = "<group>";
@@ -148,6 +159,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				216272551C61394700E52060 /* LaunchScreen.storyboard in Resources */,
+				211EFEAA1C6898E900E0E5D2 /* apikeys.plist in Resources */,
 				216272521C61394700E52060 /* Assets.xcassets in Resources */,
 				2162724D1C61394700E52060 /* Main.storyboard in Resources */,
 			);
@@ -167,12 +179,22 @@
 				216272481C61394700E52060 /* AppDelegate.swift in Sources */,
 				216272981C64768200E52060 /* Log.swift in Sources */,
 				2162725D1C613A7F00E52060 /* MapViewController.swift in Sources */,
+				211EFEAF1C68F3FA00E0E5D2 /* DataManager.swift in Sources */,
+				211EFEAC1C68A51E00E0E5D2 /* CommonCrypt.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		211EFEA81C6898E900E0E5D2 /* apikeys.plist */ = {
+			isa = PBXVariantGroup;
+			children = (
+				211EFEA91C6898E900E0E5D2 /* Base */,
+			);
+			name = apikeys.plist;
+			sourceTree = "<group>";
+		};
 		2162724B1C61394700E52060 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -283,6 +305,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ru.lionsoft.HappyMap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_NAME)/Objective-CBridgingHeader.h";
 			};
 			name = Debug;
 		};
@@ -296,6 +319,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ru.lionsoft.HappyMap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_NAME)/Objective-CBridgingHeader.h";
 			};
 			name = Release;
 		};
