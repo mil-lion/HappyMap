@@ -148,25 +148,93 @@ class DataManager: NSObject {
                 do {
                     try managedObjectContext.save()
                 } catch let error as NSError  {
-                    print("Error: Could not save new Log: \(error), \(error.userInfo)")
+                    print("Error: Could not update Log: \(error), \(error.userInfo)")
                 }
             }
         }
     }
     
+    // Synchronous Request
     func doRemoteApi(log: Log) -> Int {
-        // Get date
-        let date = log.date!.string() //("yyyy-MM-dd HH:mm:ss") "2016-02-08T21:15:30Z"
-        print("Date: \(date)")
         
+        var result = 0
+        
+        if (log.fsync!.integerValue == 1) {
+            return result
+        }
+        
+        // data for request
+        var params = Dictionary<String, AnyObject>()
+        // Get data
+        params["devid"] = devId
+        params["date"] = log.date!.string() //("yyyy-MM-dd HH:mm:ss") "2016-02-08T21:15:30Z"
+        //print("Date: \(params["date"])")
+        params["lat"] = log.latitude!.doubleValue
+        params["lon"] = log.longitude!.doubleValue
+        params["categ"] = log.category!.integerValue
+        params["rate"] = log.rate!.integerValue
         // Generate apikey
-        let sign = self.devId + date + self.apikey
-        let md5 = sign.MD5()
-        print("apikey=\(md5)")
+        params["apikey"] = (self.devId + log.date!.string() + self.apikey).MD5()
+        //print("apikey=\(params["apikey"])")
         
-        let apiUrl = "http://api.lionsoft.ru/happymap.php?devid=\(devId)&date=\(date)&lat=xxx&lon=xxx&categ=x&rate=1&apikey=\(md5)"
-        print("apiUrl: \(apiUrl)")
+        //let apiUrl = "http://happymap.lion-soft.ru/api?devid=\(devId)&date=\(date)&lat=\(lat)&lon=\(lon)&categ=\(categ)&rate=\(rate)&apikey=\(md5)"
         
-        return 0
+        let request = NSMutableURLRequest(URL: NSURL(string: "http://happymap.lion-soft.ru/api/")!)
+        request.HTTPMethod = "POST"
+        do {
+            try request.HTTPBody = NSJSONSerialization.dataWithJSONObject(params, options: [])
+            //let requesdtJson = NSString(data: request.HTTPBody!, encoding: NSUTF8StringEncoding)
+            //print("Request Body: \(requesdtJson!)")
+        } catch let err as NSError {
+            print("Error: Serialization json request: \(err), \(err.userInfo)")
+        }
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+
+        let session = NSURLSession.sharedSession()
+        
+        // set semaphore (for Synchronous Request)
+        let sem = dispatch_semaphore_create(0)
+
+        let task1 = session.dataTaskWithRequest(request, completionHandler: { (data: NSData?, response: NSURLResponse?, error: NSError?) -> Void in
+            
+            if (error == nil) {
+                //print("Response: \(response)")
+                //let jsonStr = NSString(data: data!, encoding: NSUTF8StringEncoding)
+                //print("Body: \(jsonStr)")
+                
+                do {
+                    let jsonData = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as? NSDictionary
+                    result = jsonData!["status"] as! Int
+                    let msg = jsonData!["msg"] as! String
+                    print("Result: \(msg)")
+
+//                    // Update fsync = 1 (for Asynchronous Request)
+//                    log.fsync = 1
+//                    // Commit
+//                    do {
+//                        try self.managedObjectContext.save()
+//                    } catch let error as NSError  {
+//                        print("Error: Could not update Log: \(error), \(error.userInfo)")
+//                    }
+                } catch let err as NSError {
+                    let jsonStr = NSString(data: data!, encoding: NSUTF8StringEncoding)
+                    print("Error could not parse JSON: \(jsonStr)")
+                    print("Error: DeSerialization json response: \(err), \(err.userInfo)")
+                }
+            } else {
+                print("Error: Could not request api: \(error!), \(error!.userInfo)")
+            }
+                        
+            // delete semophore (for Synchronous Request)
+            dispatch_semaphore_signal(sem)
+        })
+        // run parallel thread
+        task1.resume()
+        
+        // white delete semophore (for Synchronous Request)
+        dispatch_semaphore_wait(sem, DISPATCH_TIME_FOREVER)
+
+        return result
     }
 }

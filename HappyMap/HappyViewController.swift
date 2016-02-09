@@ -110,7 +110,6 @@ class HappyViewController: UIViewController, CLLocationManagerDelegate {
             // TODO: showAlert
         }
     }
-
     
     // MARK: - CLLocationManagerDelegate
     
